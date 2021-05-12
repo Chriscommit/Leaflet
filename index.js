@@ -16,10 +16,8 @@ if ("geolocation" in navigator) {
 }
 //fonction qui montre la position de l'utilisateur sur la map. (geoloc)
 function showMyMapWithMyPosition(position) {
-    //on peut tester qu'on récup bien une position, la lat, la lng (console.log)
-    console.log(position)
-        //on initialise la map en lui passant notre position
 
+    //on initialise la map en lui passant notre position
     createMap(position.coords.latitude, position.coords.longitude)
         //on fait apparaitre le formulaire qui est caché au départ
     let form = document.querySelector("#search")
@@ -37,8 +35,7 @@ function showMyMapWithMyPosition(position) {
 }
 //fonction de récupération des boutiques
 function getBusinessNearMyPosition(lat, lng) {
-    console.log("ça marche le big bizniiiiiissssssss")
-        //on récupère la valeur entrée dans le formulaire
+    //on récupère la valeur entrée dans le formulaire
     let userValue = document.querySelector("#business").value
         //on efface les anciens markers (voir leaflet)
     markers.clearLayers()
@@ -52,14 +49,12 @@ function getBusinessNearMyPosition(lat, lng) {
         .then(response => {
             //récupération des places
             let places = response.features
-                //on test qu'on récup bien les places dans la console
-            console.log(response.features)
                 //on fait une boucle pour afficher toutes les places renvoyé en réponse (boucle .map ES6)
             places.map((place) => {
                 //création du marker en fonction des coordonnées de la boutique
                 let marker = L.marker([place.geometry.coordinates[1], place.geometry.coordinates[0]]).addTo(mymap)
                     //on stock ce qu'on va afficher dans la popup
-                let popup = "<p class=\"popup\">" + place.properties.geocoding.name + "<br>" + place.properties.geocoding.label + "</p>"
+                let popup = "<p class=\"popup\">Nom :<br>" + (place.properties.geocoding.name ? place.properties.geocoding.name : "Inconnu") + "<br>Adresse :<br> " + place.properties.geocoding.label + "</p>"
                     //création de la popup sur le marker
                 marker.bindPopup(popup)
                     //ajout du marker à la map
@@ -67,10 +62,6 @@ function getBusinessNearMyPosition(lat, lng) {
             })
         })
         .catch(error => console.log(error))
-
-
-
-
 }
 
 //fonction d'initialisation de la map et du marker de positionnement
